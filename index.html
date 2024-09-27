@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krokodille Spillet🐊</title>
+    <style>
+      img {
+        width: 150px;
+        margin: 15px 0 15px 0;
+      }
+
+      #app {
+        width: 500px;
+        text-align: center;
+        padding: 40px;
+        background-color: antiquewhite;
+      }
+
+      .flex-end {
+        display: flex;
+        justify-content: end;
+        padding-right: 72px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--Når du trykker reset-knappen genereres to random tall mellom 1-10
+        Mellom tallene, må du ha et input felt. Her er det meningen at 
+        man skal sammenligne tallene og skrive riktig operator!
+        Når man trykker submit - må man sjekke at man har skrevet inn 
+        riktig tegn i input-feltet og oppdatere poengsummen. 
+        Riktig svar plusser på 1 poeng, feil svar trekker fra et poeng.-->
+    <div id="app"></div>
+
+    <script>
+      let randomNumberOne;
+      let randomNumberTwo;
+      let greaterThan = ">";
+      let equalTo = "=";
+      let lessThan = "<";
+      let points = 0;
+      let imgSrc = "../images/crocodile.jpg";
+      let resultMessage = "";
+      let correctMessage = "Korrekt!";
+      let wrongMessage = "Feil! Prøv igjen!";
+
+      updateView();
+      function updateView() {
+        document.getElementById("app").innerHTML = /*html*/ `
+        <div class="kokodille-container">
+          <div id="points">Poeng: ${points}</div>
+          <div id="resultDiv">${resultMessage}</div>
+          <img src="${imgSrc}" />
+          <div id="guessNumber">${randomNumberOne}</div>
+          <div class="flex-end">
+            <input type="text" name="user answer" onchange="checkUserInput(this.value)"/>
+            <button onclick="checkUserInput()">Submit</button>
+            <button onclick="createRandomNumber()">Reset</button>
+          </div>
+          <div id="guessNumber">${randomNumberTwo}</div>
+      </div>
+        `;
+      }
+
+      function checkUserInput(userInput) {
+        if (randomNumberOne > randomNumberTwo && userInput === greaterThan) {
+          resultMessage = correctMessage;
+          points++;
+          imgSrc = "../images/correct-answer-crocodile.jpg";
+          createRandomNumber();
+        } else if (
+          randomNumberOne < randomNumberTwo &&
+          userInput === lessThan
+        ) {
+          resultMessage = correctMessage;
+          points++;
+          imgSrc = "../images/correct-answer-crocodile.jpg";
+          createRandomNumber();
+        } else if (
+          randomNumberOne == randomNumberTwo &&
+          userInput === equalTo
+        ) {
+          resultMessage = correctMessage;
+          points++;
+          imgSrc = "../images/correct-answer-crocodile.jpg";
+          createRandomNumber();
+        } else {
+          resultMessage = wrongMessage;
+          imgSrc = "../images/wrong-answer-crocodile.jpg";
+
+          if (points > 0) {
+            points--;
+          }
+          createRandomNumber();
+        }
+        updateView();
+      }
+
+      function createRandomNumber() {
+        randomNumberOne = Math.floor(Math.random() * 10) + 1;
+        randomNumberTwo = Math.floor(Math.random() * 10) + 1;
+        console.log(randomNumberOne, randomNumberTwo);
+        updateView();
+      }
+      createRandomNumber();
+    </script>
+  </body>
+</html>
